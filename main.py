@@ -9,5 +9,13 @@ app.config['SECRET_KEY'] = 'BigSecret'
 def index():
     return render_template("index.html")
 
+@app.route("/Login", methods=['GET','POST'])
+def Login():
+    return render_template("Login.html")
+
+@app.route("/Registration", methods=['GET','POST'])
+def Registration():
+    return render_template("Registration.html")
+
 if __name__ == '__main__':
     app.run(debug=True)

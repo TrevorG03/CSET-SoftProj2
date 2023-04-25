@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Banking Website</title>
+    <title>Register</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -85,33 +85,19 @@
 <h1>Registration Page: After registration Admin must approve account</h1>
 <ul>
   <li><a href="/">Landing page</a></li>
-   <li><a href="/Register">Register</a></li>
+   <li><a href="/Registration">Registration</a></li>
     <li><a href="/Login">Login</a></li>
-    <li><a href="/Deposit">Deposit</a></li>
-    <li><a href="/Withdraw">Withdraw</a></li>
-   <li><a href="/Transfer">Transfer</a></li>
-       <li><a href="/Accounts">Accounts</a></li>
 
 </ul>
 
 <div class="container">
-    <form action="{{ url_for('Register')}}" method="POST">
+    <form action="{{ url_for('Registration')}}" method="POST">
         <label>Create Your Username</label>
         <input type="text" id="username" name="username" placeholder="Your Username Here" class="input_field">
         <label>Create your Password</label>
         <input type="password" id="password" name="password" placeholder="Your Password Here" class="input_field">
-        <label>What is your first name?</label>
+        <label>What is your Email</label>
          <input type="text" id="first_name" name="first_name" placeholder="Your First Name Here" class="input_field">
-        <label>What is your last name?</label>
-        <input type="text" id="last_name" name="last_name" placeholder="Your Last Name Here" class="input_field">
-        <label>What is your SSN?</label>
-        <input type="text" id="ssn" name="ssn" placeholder="Your SSN Here" class="input_field">
-        <label>What is your address?</label>
-        <input type="text" id="address" name="address" placeholder="Your Address Here" class="input_field">
-        <label>What is your phone number?</label>
-        <input type="text" id="phone_number" name="phone_number" placeholder="Your Phone number Here" class="input_field">
-        <label>What is your account number?</label>
-        <input type="text" id="account_number" name="account_number" placeholder="Your Account number Here" class="input_field">
         <button type="submit" id="btnInsert" class="input_submit">Create Account</button>
         <div id="lsOutput"></div>
             </form>
