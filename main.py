@@ -1,16 +1,13 @@
-# This is a sample Python script.
+from flask import Flask, render_template, request, redirect, url_for,session
+from sqlalchemy import Column, Integer, String, Numeric, create_engine, text
+app = Flask(__name__)
+conn_str = "mysql://root:Treyjg2121@localhost/bank_accounts"
+engine = create_engine(conn_str, echo = True)
+conn = engine.connect()
+app.config['SECRET_KEY'] = 'BigSecret'
+@app.route("/", methods=['GET','POST'])
+def index():
+    return render_template("index.html")
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    app.run(debug=True)

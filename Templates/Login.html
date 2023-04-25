@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banking Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        h1 {
+            color: #0077b6;
+            text-align: center;
+            margin-top: 50px;
+        }
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+        li {
+            float: left;
+        }
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        li a:hover {
+            background-color: #111;
+        }
+        form {
+            margin: 50px auto;
+            max-width: 500px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        input[type="submit"] {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background-color: #0077b6;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #005a8c;
+        }
+    </style>
+</head>
+<body>
+<h1>Login to Your account after Approval</h1>
+<ul>
+  <li><a href="/">Landing page</a></li>
+   <li><a href="/Register">Register</a></li>
+    <li><a href="/Login">Login</a></li>
+    <li><a href="/Deposit">Deposit</a></li>
+    <li><a href="/Withdraw">Withdraw</a></li>
+   <li><a href="/Transfer">Transfer</a></li>
+       <li><a href="/Accounts">Accounts</a></li>
+</ul>
+<h1>Login</h1>
+	<form method="post" action="{{ url_for('Login') }}">
+		<label for="username">Username:</label>
+		<input type="text" name="username" id="username" required>
+
+		<label for="password">Password:</label>
+		<input type="password" name="password" id="password" required>
+
+		<input type="submit" value="Login">
+	</form>
+</body>
+</html>
