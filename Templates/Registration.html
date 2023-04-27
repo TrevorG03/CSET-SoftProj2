@@ -4,106 +4,92 @@
     <meta charset="UTF-8">
     <title>Register</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-        }
-        h1 {
-            color: #0077b6;
-            text-align: center;
-            margin-top: 50px;
-        }
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #333;
-        }
-        li {
-            float: left;
-        }
-        li a {
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        li a:hover {
-            background-color: #111;
-        }
-        .container {
-            margin-top: 50px;
-            margin-left: auto;
-            margin-right: auto;
-            max-width: 600px;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        label {
-            display: block;
-            margin-top: 20px;
-            margin-bottom: 5px;
-            font-weight: bold;
-            font-size: 14px;
-            color: #555;
-        }
-        .input_field {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-            color: #444;
-            box-sizing: border-box;
-            margin-bottom: 20px;
-        }
-        .input_submit {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: #0077b6;
-            color: white;
-            font-size: 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-        .input_submit:hover {
-            background-color: #005a8c;
-        }
+body {
+  background-color: white;
+  color: red;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  width: 50%;
+  margin: 0 auto;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+a {
+  color: red;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input_field {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+}
+
+.input_submit {
+  background-color: red;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.input_submit:hover {
+  background-color: #cc0000;
+}
     </style>
 </head>
 <body>
-<h1>Registration Page: After registration Admin must approve account</h1>
-<ul>
-  <li><a href="/">Landing page</a></li>
-   <li><a href="/Registration">Registration</a></li>
-    <li><a href="/Login">Login</a></li>
-
-</ul>
-
-<div class="container">
+    <h1>Registration Page:</h1>
+    <ul>
+        <li><a href="/">Landing page</a></li>
+        <li><a href="/Registration">Registration</a></li>
+        <li><a href="/Login">Login</a></li>
+    </ul>
+    <div class="container">
     <form action="{{ url_for('Registration')}}" method="POST">
         <label>Create Your Username</label>
         <input type="text" id="username" name="username" placeholder="Your Username Here" class="input_field">
         <label>Create your Password</label>
         <input type="password" id="password" name="password" placeholder="Your Password Here" class="input_field">
         <label>What is your Email</label>
-         <input type="text" id="first_name" name="first_name" placeholder="Your First Name Here" class="input_field">
-        <button type="submit" id="btnInsert" class="input_submit">Create Account</button>
-        <div id="lsOutput"></div>
-            </form>
-</div>
-<footer>
-    <p>&copy; Ecommerce Store 2023</p>
-</footer>
+         <input type="text" id="email" name="email" placeholder="Your email here" class="input_field">
+        <select id="account_type" name="account_type" class="input_field">
+  <option value="Admin">Admin</option>
+  <option value="Vendor">Vendor</option>
+  <option value="User">User</option>
+</select>
+            <button type="submit" id="btnInsert" class="input_submit">Create Account</button>
+            <div id="lsOutput"></div>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; Ecommerce Store 2023</p>
+    </footer>
 </body>
 </html>
