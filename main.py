@@ -34,7 +34,9 @@ def Registration():
     else:
         return render_template("Registration.html")
 
-
+@app.route('/Products', methods=['GET','POST'])
+def Products():
+    return render_template('Products.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
