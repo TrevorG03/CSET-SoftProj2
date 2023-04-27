@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Products</title>
+    <title>Your Account Page</title>
 </head>
 <body>
-    <h1>Products Page:</h1>
+    <h1>Accounts Page:</h1>
     <ul>
         <li><a href="/">Home page</a></li>
         <li><a href="/Registration">Registration</a></li>
@@ -14,5 +14,17 @@
       <li><a href="/VendorAdd">Product Add Page</a></li>
       <li><a href="/Accounts">Accounts</a></li>
     </ul>
+        </thead>
+        <tbody>
+          {% for account in accounts %}
+            <tr>
+              <td>{{ account.username }}</td>
+              <td>{{ account.password }}</td>
+              <td>{{ account.email }}</td>
+              <td>{{ account.account_type }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 </body>
 </html>
