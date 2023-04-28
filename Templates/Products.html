@@ -14,5 +14,13 @@
       <li><a href="/VendorAdd">Product Add Page</a></li>
       <li><a href="/Accounts">Accounts</a></li>
     </ul>
+<footer>
+    <p>&copy; Ecommerce Store 2023</p>
+    {% if session['username'] %}
+<form method="post" action="/logout">
+    <button type="submit">Logout</button>
+</form>
+    {% endif %}
+</footer>
 </body>
 </html>

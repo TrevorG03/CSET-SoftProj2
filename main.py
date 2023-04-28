@@ -14,8 +14,11 @@ def index():
 def Login():
     if request.method == 'POST':
         username = request.form['username']
+        session['username'] = username
         password = request.form['password']
+        session['password'] = password
         account_type = request.form['account_type']
+        session['account_type'] = account_type
         user_query = text("select * from accounts where username = :username AND password = :password AND account_type = :account_type" )
         params = {"username": username, "password": password, "account_type" :account_type}
         with engine.connect() as conn:
@@ -30,6 +33,11 @@ def Login():
             return render_template("Products.html")
     else:
         return render_template("Login.html")
+
+@app.route("/logout", methods =['GET','POST'])
+def logout():
+    session.pop('id', None)
+    return redirect(url_for('Login'))
 
 @app.route("/Registration", methods=['GET','POST'])
 def Registration():
@@ -55,7 +63,15 @@ def Products():
 
 @app.route('/Accounts', methods=['GET','POST'])
 def Accounts():
-    return render_template('Accounts.html')
+    if 'username' in session:
+        username = session['username']
+        query = text("SELECT * FROM accounts WHERE username = :username")
+        params = {'username': username}
+        with engine.connect() as conn:
+            accounts = conn.execute(query, params).fetchall()
+        return render_template('Accounts.html', accounts=accounts)
+    else:
+        return redirect(url_for('Login'))
 
 @app.route('/VendorAdd', methods=['GET','POST'])
 def AddProducts():
