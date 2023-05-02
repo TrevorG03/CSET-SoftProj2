@@ -3,103 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <title>Login Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-        }
-        h1 {
-            color: #0077b6;
-            text-align: center;
-            margin-top: 50px;
-        }
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #333;
-        }
-        li {
-            float: left;
-        }
-        li a {
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-        li a:hover {
-            background-color: #111;
-        }
-        form {
-            margin: 50px auto;
-            max-width: 500px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-        label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        input[type="submit"] {
-            display: block;
-            margin: 0 auto;
-            padding: 10px 20px;
-            background-color: #0077b6;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #005a8c;
-        }
-    </style>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ff0000;
+}
+
+h1 {
+    color: #ffffff;
+    text-align: center;
+    margin-top: 50px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #ff0000;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: #ffffff;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #b30000;
+}
+
+form {
+    margin: 50px auto;
+    max-width: 500px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+input[type="submit"] {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    background-color: #ff0000;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #b30000;
+}
+</style>
 </head>
 <body>
-<h1>Login to Your account after Approval</h1>
+    <h1>Login to Your account after Approval</h1>
     <ul>
         <li><a href="/">Home page</a></li>
         <li><a href="/Registration">Registration</a></li>
         <li><a href="/Login">Login</a></li>
-      <li><a href="/Products">Products</a></li>
-      <li><a href="/VendorAdd">Product Add Page</a></li>
-      <li><a href="/Accounts">Accounts</a></li>
+        <li><a href="/Products">Products</a></li>
+        <li><a href="/VendorAdd">Product Add Page</a></li>
+        <li><a href="/Accounts">Accounts</a></li>
     </ul>
-<h1>Login</h1>
-	<form method="post" action="{{ url_for('Login') }}">
-		<label for="username">Username:</label>
-		<input type="text" name="username" id="username" required>
+    <h1>Login</h1>
+    <form method="post" action="{{ url_for('Login') }}">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required>
 
-		<label for="password">Password:</label>
-		<input type="password" name="password" id="password" required>
-        <select id="account_type" name="account_type" class="input_field">
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required>
+
+        <label for="account_type">Account Type:</label>
+        <select id="account_type" name="account_type">
             <option value="Admin">Admin</option>
             <option value="Vendor">Vendor</option>
             <option value="User">User</option>
         </select>
-		<input type="submit" value="Login">
-	</form>
-<footer>
-    <p>&copy; Ecommerce Store 2023</p>
-    {% if session['username'] %}
-<form method="post" action="/logout">
-    <button type="submit">Logout</button>
-</form>
-    {% endif %}
-</footer>
+
+        <input type="submit" value="Login">
+    </form>
+    <footer>
+        <p>&copy; Ecommerce Store 2023</p>
+        {% if session['username'] %}
+            <form method="post" action="/logout">
+                <button type="submit">Logout</button>
+            </form>
+        {% endif %}
+    </footer>
 </body>
 </html>

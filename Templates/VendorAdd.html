@@ -3,6 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Products Page</title>
+    <style>
+        body {
+  background-color: white;
+  color: red;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  border-bottom: 2px solid red;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+a {
+  color: red;
+  text-decoration: none;
+}
+
+form {
+  margin-top: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type="text"] {
+  padding: 5px;
+  font-size: 16px;
+  border: 2px solid red;
+  border-radius: 5px;
+}
+
+button[type="submit"] {
+  padding: 10px;
+  font-size: 16px;
+  color: white;
+  background-color: red;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+footer p {
+  margin: 0;
+  color: red;
+}
+    </style>
 </head>
 <body>
     <h1>Add Products Page:</h1>
@@ -14,7 +79,18 @@
       <li><a href="/VendorAdd">Product Add Page</a></li>
       <li><a href="/Accounts">Accounts</a></li>
     </ul>
+    <form method="post" action="{{ url_for('AddProducts') }}">
+        <label for="product_name">product_name:</label>
+        <input type="text" name="product_name" id="product_name" required>
+        <label for="product_type">product_type:</label>
+        <input type="text" name="product_type" id="product_type" required>
+        <label for="product_cost">product_cost:</label>
+        <input type="text" name="product_cost" id="product_cost" required>
+        <label for="img_url">img_url:</label>
+        <input type="text" name="img_url" id="img_url" required>
 
+        <button type="submit">Add Item</button>
+    </form>
 <footer>
     <p>&copy; Ecommerce Store 2023</p>
     {% if session['username'] %}

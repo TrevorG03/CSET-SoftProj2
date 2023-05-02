@@ -59,7 +59,13 @@ def Registration():
 
 @app.route('/Products', methods=['GET','POST'])
 def Products():
-    return render_template('Products.html')
+    if request.method == 'POST':
+        return render_template('Products.html')
+    else:
+        query = text("SELECT * FROM product_info")
+        with engine.connect() as conn:
+            products = conn.execute(query).fetchall()
+        return render_template('Products.html', products=products)
 
 @app.route('/Accounts', methods=['GET','POST'])
 def Accounts():
@@ -75,7 +81,21 @@ def Accounts():
 
 @app.route('/VendorAdd', methods=['GET','POST'])
 def AddProducts():
-    return render_template('VendorAdd.html')
+    if request.method == 'POST':
+        product_name = request.form['product_name']
+        product_type = request.form['product_type']
+        product_cost = request.form['product_cost']
+        img_url = request.form['img_url']
+        query = text(
+            "INSERT INTO product_info(product_name,product_type,product_cost,img_url)"
+            "VALUES(:product_name, :product_type, :product_cost, :img_url)")
+        params = {"product_name": product_name, "product_type": product_type, "product_cost": product_cost, "img_url": img_url}
+        with engine.connect() as conn:
+            conn.execute(query, params)
+            conn.commit()
+            return render_template("VendorAdd.html")
+    else:
+        return render_template("VendorAdd.html")
 
 if __name__ == '__main__':
     app.run(debug=True)

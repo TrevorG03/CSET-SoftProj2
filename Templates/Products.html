@@ -3,23 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <title>Products Page</title>
+    <style>
+        body {
+            background-color: white;
+            color: black;
+        }
+
+        header {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        li a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+        }
+
+        li a:hover {
+            background-color: white;
+            color: red;
+        }
+
+        footer {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        form {
+            margin: 20px;
+        }
+
+        img {
+            width: 200px;
+            height: 200px;
+            margin: 20px;
+        }
+    </style>
 </head>
 <body>
+<header>
     <h1>Products Page:</h1>
     <ul>
         <li><a href="/">Home page</a></li>
         <li><a href="/Registration">Registration</a></li>
         <li><a href="/Login">Login</a></li>
-      <li><a href="/Products">Products</a></li>
-      <li><a href="/VendorAdd">Product Add Page</a></li>
-      <li><a href="/Accounts">Accounts</a></li>
+        <li><a href="/Products">Products</a></li>
+        <li><a href="/VendorAdd">Product Add Page</a></li>
+        <li><a href="/Accounts">Accounts</a></li>
     </ul>
+</header>
+
+<form method="post" action="{{ url_for('Products') }}">
+    {% for product in products %}
+        <p> Product: {{ product.product_name }}</p>
+        <p> Type: {{ product.product_type }}</p>
+        <p> Price: {{ product.product_cost }}</p>
+        <img src="Tomato Soup.webp"> Image:</img>
+    {% endfor %}
+</form>
+
 <footer>
     <p>&copy; Ecommerce Store 2023</p>
     {% if session['username'] %}
-<form method="post" action="/logout">
-    <button type="submit">Logout</button>
-</form>
+        <form method="post" action="/logout">
+            <button type="submit">Logout</button>
+        </form>
     {% endif %}
 </footer>
 </body>
