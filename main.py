@@ -97,5 +97,9 @@ def AddProducts():
     else:
         return render_template("VendorAdd.html")
 
+@app.route('/Chat', methods=['GET', 'POST'])
+def Chat():
+    return render_template("Chat.html")
+
 if __name__ == '__main__':
     app.run(debug=True)

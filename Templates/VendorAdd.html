@@ -75,9 +75,16 @@ footer p {
         <li><a href="/">Home page</a></li>
         <li><a href="/Registration">Registration</a></li>
         <li><a href="/Login">Login</a></li>
-      <li><a href="/Products">Products</a></li>
-      <li><a href="/VendorAdd">Product Add Page</a></li>
-      <li><a href="/Accounts">Accounts</a></li>
+        <li><a href="/Products">Products</a></li>
+        <li><a href="/VendorAdd">Product Add Page</a></li>
+        <li><a href="/Accounts">Accounts</a></li>
+        <li><a href="/Chat">Chat</a></li>
+        {% if session['username'] %}
+            <h2>Account Details:</h2>
+            <p>Username: {{ session.username }}</p>
+        {% else %}
+            <p>Please log in to view your account details.</p>
+        {% endif %}
     </ul>
     <form method="post" action="{{ url_for('AddProducts') }}">
         <label for="product_name">product_name:</label>

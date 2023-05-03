@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ecommerce Homepage</title>
-    <style>
+    <title>Title</title>
+       <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #fff;
@@ -54,7 +54,7 @@
     </style>
 </head>
 <body>
-    <h1>HomePage</h1>
+<h1> Chat with other users, Contact Admins and Vendors with our chat feature</h1>
     <ul>
         <li><a href="/">Home page</a></li>
         <li><a href="/Registration">Registration</a></li>
@@ -70,25 +70,17 @@
             <p>Please log in to view your account details.</p>
         {% endif %}
     </ul>
-    <div class="benefits">
-        <h2>Why Use Ecommerce?</h2>
-        <p>Ecommerce offers many benefits, including:</p>
-        <ul>
-            <li>Convenience - shop from the comfort of your own home</li>
-            <li>Access to a wider variety of products and services</li>
-            <li>Ability to compare prices and find the best deals</li>
-            <li>24/7 availability - you can shop whenever it's convenient for you</li>
-            <li>Secure payment options to protect your personal and financial information</li>
-        </ul>
-        <p>At our Ecommerce Store, we strive to provide a seamless and secure shopping experience for all of our customers. Start browsing our selection of products today!</p>
-    </div>
-    <footer>
-        <p>&copy; Ecommerce Store 2023</p>
-        {% if session['username'] %}
-            <form method="post" action="/logout">
-                <button type="submit">Logout</button>
-            </form>
-        {% endif %}
-    </footer>
+<p> Just input the deired information and your chat will be stored</p>
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required>
+        <label for="account_type">Account Type:</label>
+        <select id="account_type" name="account_type">
+            <option value="Admin">Admin</option>
+            <option value="Vendor">Vendor</option>
+            <option value="User">User</option>
+        </select>
+        <label for="Message">Message:</label>
+        <input type="text" name="Message" id="Message" required>
+<button type="submit">Send Message</button>
 </body>
 </html>
