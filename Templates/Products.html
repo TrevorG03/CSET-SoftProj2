@@ -98,7 +98,17 @@ footer {
         </div>
     {% endfor %}
 </form>
-
+{% if messages %}
+  <div class="chat">
+    {% for message in messages %}
+      <p>{{ message.username }} ({{ message.account_type }}): {{ message.message }}</p>
+      <br>
+    {% endfor %}
+  </div>
+{% else %}
+<br>
+{% endif %}
+<br>
 <footer>
     <p>&copy; Ecommerce Store 2023</p>
     {% if session['username'] %}

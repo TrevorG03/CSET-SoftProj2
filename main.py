@@ -103,17 +103,18 @@ def Chat():
         Your_User = request.form['Your_User']
         username = request.form['username']
         account_type = request.form['account_type']
-        messages = request.form['messages']
+        message = request.form['message']
         query = text(
-            "INSERT INTO Chats(Your_User,username,account_type,messages)"
-            "VALUES(:Your_User, :username, :account_type, :messages)")
-        params = {"Your_User" :Your_User,"username": username, "account_type": account_type, "messages": messages}
+            "INSERT INTO Chats(sender_username,username,account_type,message)"
+            "VALUES(:sender_username, :username, :account_type, :message)")
+        params = {"sender_username" :Your_User,"username": username, "account_type": account_type, "message": message}
         with engine.connect() as conn:
             conn.execute(query, params)
             conn.commit()
-        return render_template("Chat.html")
+        return redirect(url_for('show_chats', username=username))
     else:
         return render_template("Chat.html")
+
 
 @app.route('/Show', methods=['GET', 'POST'])
 def show_chats():
@@ -123,9 +124,9 @@ def show_chats():
         params = {'username': username}
         with engine.connect() as conn:
             chats = conn.execute(query, params).fetchall()
-        return render_template('Show.html', chats=chats)
+        return render_template('Chat.html', chats=chats, username=username)
     else:
-        return render_template('Show.html')
+        return render_template('Chat.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

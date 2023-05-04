@@ -95,5 +95,24 @@
     <input type="text" name="username" id="username" required>
     <button type="submit">Show Messages</button>
 </form>
+    <h1>Chat History for {{ username }}</h1>
+    <hr>
+    <ul>
+      {% for chat in chats %}
+      <li>
+        <strong>{{ chat.sender_username }}:</strong> {{ chat.message }}
+      </li>
+      {% endfor %}
+    </ul>
+    <hr>
+    <form method="POST" action="{{ url_for('Chat') }}">
+      <input type="hidden" name="username" value="{{ username }}">
+      <input type="hidden" name="account_type" value="{{ account_type }}">
+      <input type="hidden" name="Your_User" value="{{ Your_User }}">
+      <label for="message">Message:</label>
+      <input type="text" name="message" id="message">
+      <button type="submit">Send</button>
+    </form>
+    <hr>
 </body>
 </html>
