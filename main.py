@@ -99,7 +99,33 @@ def AddProducts():
 
 @app.route('/Chat', methods=['GET', 'POST'])
 def Chat():
-    return render_template("Chat.html")
+    if request.method == 'POST':
+        Your_User = request.form['Your_User']
+        username = request.form['username']
+        account_type = request.form['account_type']
+        messages = request.form['messages']
+        query = text(
+            "INSERT INTO Chats(Your_User,username,account_type,messages)"
+            "VALUES(:Your_User, :username, :account_type, :messages)")
+        params = {"Your_User" :Your_User,"username": username, "account_type": account_type, "messages": messages}
+        with engine.connect() as conn:
+            conn.execute(query, params)
+            conn.commit()
+        return render_template("Chat.html")
+    else:
+        return render_template("Chat.html")
+
+@app.route('/Show', methods=['GET', 'POST'])
+def show_chats():
+    if request.method == 'POST':
+        username = request.form['username']
+        query = text("SELECT * FROM Chats WHERE username = :username")
+        params = {'username': username}
+        with engine.connect() as conn:
+            chats = conn.execute(query, params).fetchall()
+        return render_template('Show.html', chats=chats)
+    else:
+        return render_template('Show.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

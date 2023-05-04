@@ -4,58 +4,67 @@
     <meta charset="UTF-8">
     <title>Products Page</title>
     <style>
-        body {
-            background-color: white;
-            color: black;
-        }
+body {
+    background-color: white;
+    color: black;
+    margin: 0;
+    padding-bottom: 50px; /* to prevent the footer from overlapping content */
+}
 
-        header {
-            background-color: red;
-            color: white;
-            padding: 10px;
-            margin-bottom: 20px;
-        }
+header {
+    background-color: red;
+    color: white;
+    padding: 10px;
+    margin-bottom: 20px;
+}
 
-        ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
 
-        li {
-            display: inline-block;
-            margin-right: 10px;
-        }
+li {
+    display: inline-block;
+    margin-right: 10px;
+}
 
-        li a {
-            color: white;
-            text-decoration: none;
-            padding: 10px;
-        }
+li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+}
 
-        li a:hover {
-            background-color: white;
-            color: red;
-        }
+li a:hover {
+    background-color: white;
+    color: red;
+}
 
-        footer {
-            background-color: red;
-            color: white;
-            padding: 10px;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
+footer {
+    background-color: red;
+    color: white;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+    .product-image {
+        width: 200px;
+        height: 200px;
+        margin: 20px;
+    }
+    .Clothing {
+        border: 1px solid blue;
+    }
+    .Electronics {
+        border: 1px solid green;
+    }
+    .Soup {
+        border: 1px solid yellow;
         }
-
-        form {
-            margin: 20px;
-        }
-
-        img {
-            width: 200px;
-            height: 200px;
-            margin: 20px;
+    .Seasoning {
+        border: 1px solid orange;
         }
     </style>
 </head>
@@ -81,10 +90,12 @@
 
 <form method="post" action="{{ url_for('Products') }}">
     {% for product in products %}
-        <p> Product: {{ product.product_name }}</p>
-        <p> Type: {{ product.product_type }}</p>
-        <p> Price: {{ product.product_cost }}</p>
-        <img src="Tomato Soup.webp"> Image:</img>
+        <div class="{{ product.product_type }}">
+            <p> Product: {{ product.product_name }}</p>
+            <p> Type: {{ product.product_type }}</p>
+            <p> Price: {{ product.product_cost }}</p>
+            <img src="{{ product.img_url }}" alt="{{ product.product_name }}" class="product-image">
+        </div>
     {% endfor %}
 </form>
 

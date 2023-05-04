@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-       <style>
+    <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #fff;
@@ -54,7 +54,7 @@
     </style>
 </head>
 <body>
-<h1> Chat with other users, Contact Admins and Vendors with our chat feature</h1>
+    <h1>Chat with other users, Contact Admins and Vendors with our chat feature</h1>
     <ul>
         <li><a href="/">Home page</a></li>
         <li><a href="/Registration">Registration</a></li>
@@ -64,13 +64,20 @@
         <li><a href="/Accounts">Accounts</a></li>
         <li><a href="/Chat">Chat</a></li>
         {% if session['username'] %}
-            <h2>Account Details:</h2>
-            <p>Username: {{ session.username }}</p>
+            <li>
+                <h2>Account Details:</h2>
+                <p>Username: {{ session['username'] }}</p>
+            </li>
         {% else %}
-            <p>Please log in to view your account details.</p>
+            <li>
+                <p>Please log in to view your account details.</p>
+            </li>
         {% endif %}
     </ul>
-<p> Just input the deired information and your chat will be stored</p>
+    <p>Just input the desired information and your chat will be stored.</p>
+    <form method="post" action="{{ url_for('Chat') }}">
+        <label for="Your_User">Your Username:</label>
+        <input type="text" name="Your_User" id="Your_User" required>
         <label for="username">Username:</label>
         <input type="text" name="username" id="username" required>
         <label for="account_type">Account Type:</label>
@@ -79,8 +86,14 @@
             <option value="Vendor">Vendor</option>
             <option value="User">User</option>
         </select>
-        <label for="Message">Message:</label>
-        <input type="text" name="Message" id="Message" required>
-<button type="submit">Send Message</button>
+        <label for="message">Message:</label>
+        <input type="text" name="message" id="message" required>
+        <button type="submit">Send Message</button>
+    </form>
+<form method="post" action="{{ url_for('show_chats') }}">
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" required>
+    <button type="submit">Show Messages</button>
+</form>
 </body>
 </html>
