@@ -93,18 +93,43 @@ footer p {
         <input type="text" name="product_type" id="product_type" required>
         <label for="product_cost">product_cost:</label>
         <input type="text" name="product_cost" id="product_cost" required>
+        <label for="vendor_name">Vendor_name:</label>
+        <input type="text" name="vendor_name" id="vendor_name" required>
         <label for="img_url">img_url:</label>
         <input type="text" name="img_url" id="img_url" required>
 
         <button type="submit">Add Item</button>
     </form>
+   <table>
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Password</th>
+      <th>Email</th>
+      <th>Account Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product in product_info %}
+        <tr>
+          <td>{{ account.username }}</td>
+          <td>{{ account.password }}</td>
+          <td>{{ account.email }}</td>
+          <td>{{ account.account_type }}</td>
+            <p> {{ product.vendor_name }} </p>
+            <td><button type="submit">Remove item</button></td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 <footer>
     <p>&copy; Ecommerce Store 2023</p>
-    {% if session['username'] %}
-  <form method="post" action="/logout">
-    <button type="submit">Logout</button>
-</form>
-    {% endif %}
+{% if session['username'] is defined %}
+    <form method="post" action="/logout">
+        <button type="submit">Logout</button>
+    </form>
+{% endif %}
 </footer>
 </body>
 </html>

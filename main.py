@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session,flash
 from sqlalchemy import Column, Integer, String, Numeric, create_engine, text
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'BigSecret'
+app.config['SECRET_KEY'] = 'BigSecret21'
 conn_str = "mysql://root:Treyjg2121@localhost/ecommerce"
 engine = create_engine(conn_str, echo=True)
 conn = engine.connect()
@@ -34,11 +34,14 @@ def Login():
     else:
         return render_template("Login.html")
 
-@app.route("/logout", methods =['GET','POST'])
+@app.route("/logout", methods=['GET', 'POST'])
 def logout():
-    session.pop('id', None)
+    try:
+        session.pop('id', None)
+        flash('You have successfully logged out.', 'success')
+    except KeyError:
+        flash('You were not logged in to begin with.', 'error')
     return redirect(url_for('Login'))
-
 @app.route("/Registration", methods=['GET','POST'])
 def Registration():
     if request.method == 'POST':
@@ -62,10 +65,22 @@ def Products():
     if request.method == 'POST':
         return render_template('Products.html')
     else:
-        query = text("SELECT * FROM product_info")
+        query = text("SELECT * FROM products")
         with engine.connect() as conn:
             products = conn.execute(query).fetchall()
         return render_template('Products.html', products=products)
+
+@app.route('/cart', methods=['POST'])
+def cart():
+    cart_items = []
+    for product_id, quantity in session.get('cart', {}).items():
+        query = text("SELECT * FROM products WHERE product_id = :product_id")
+        params = {'product_id': product_id}
+        with engine.connect() as conn:
+            product = conn.execute(query, params).fetchone()
+        if product is not None:
+            cart_items.append((product, quantity))
+    return render_template('cart.html', cart_items=cart_items)
 
 @app.route('/Accounts', methods=['GET','POST'])
 def Accounts():
@@ -85,15 +100,16 @@ def AddProducts():
         product_name = request.form['product_name']
         product_type = request.form['product_type']
         product_cost = request.form['product_cost']
+        vendor_name = request.form['vendor_name']
         img_url = request.form['img_url']
         query = text(
-            "INSERT INTO product_info(product_name,product_type,product_cost,img_url)"
-            "VALUES(:product_name, :product_type, :product_cost, :img_url)")
-        params = {"product_name": product_name, "product_type": product_type, "product_cost": product_cost, "img_url": img_url}
+            "INSERT INTO products(product_name,product_type,product_cost,vendor_name,img_url)"
+            "VALUES(:product_name, :product_type, :product_cost, :vendor_name, :img_url)")
+        params = {"product_name": product_name, "product_type": product_type, "product_cost": product_cost, "vendor_name": vendor_name, "img_url": img_url}
         with engine.connect() as conn:
             conn.execute(query, params)
             conn.commit()
-            return render_template("VendorAdd.html")
+            return render_template("Products.html")
     else:
         return render_template("VendorAdd.html")
 
@@ -115,7 +131,6 @@ def Chat():
     else:
         return render_template("Chat.html")
 
-
 @app.route('/Show', methods=['GET', 'POST'])
 def show_chats():
     if request.method == 'POST':
@@ -127,6 +142,25 @@ def show_chats():
         return render_template('Chat.html', chats=chats, username=username)
     else:
         return render_template('Chat.html')
+
+@app.route('/Review', methods = ['GET','POST'])
+def Review():
+    if request.method == 'Post':
+        product_name = request.form['product_name']
+        product_type = request.form['product_type']
+        product_cost = request.form['product_cost']
+        Vendor_name = request.form['Vendor_name']
+        review = request.form['review']
+        query = text(
+            "INSERT INTO review(product_name,product_type,product_cost,Vendor_name,review)"
+            "VALUES(:product_name, :product_type, :product_cost, :Vendor_name :review)")
+        params = {"product_name" :product_name,"product_type": product_type, "product_cost": product_cost, "Vendor_name": Vendor_name, "review": review}
+        with engine.connect() as conn:
+            conn.execute(query, params).fetchall()
+            conn.commit()
+        return render_template('Review.html' )
+    else:
+        return render_template('Review.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

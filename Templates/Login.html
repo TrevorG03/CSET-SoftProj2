@@ -114,13 +114,13 @@ input[type="submit"]:hover {
 
         <input type="submit" value="Login">
     </form>
-    <footer>
-        <p>&copy; Ecommerce Store 2023</p>
-        {% if session['username'] %}
-            <form method="post" action="/logout">
-                <button type="submit">Logout</button>
-            </form>
-        {% endif %}
-    </footer>
+<footer>
+    <p>&copy; Ecommerce Store 2023</p>
+{% if session['username'] is defined %}
+    <form method="post" action="/logout">
+        <button type="submit">Logout</button>
+    </form>
+{% endif %}
+</footer>
 </body>
 </html>

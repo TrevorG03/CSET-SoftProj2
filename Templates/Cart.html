@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart Page</title>
+    <style>
+        body {
+            background-color: white;
+            color: black;
+            margin: 0;
+            padding-bottom: 50px; /* to prevent the footer from overlapping content */
+        }
+
+        header {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {background-color: #f5f5f5;}
+
+        .total {
+            text-align: right;
+            font-weight: bold;
+        }
+
+        footer {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Cart Page:</h1>
+    <ul>
+        <li><a href="/">Home page</a></li>
+        <li><a href="/Registration">Registration</a></li>
+        <li><a href="/Login">Login</a></li>
+        <li><a href="/Products">Products</a></li>
+        <li><a href="/VendorAdd">Product Add Page</a></li>
+        <li><a href="/Accounts">Accounts</a></li>
+        <li><a href="/Chat">Chat</a></li>
+        {% if session['username'] %}
+            <h2>Account Details:</h2>
+            <p>Username: {{ session.username }}</p>
+        {% else %}
+            <p>Please log in to view your account details.</p>
+        {% endif %}
+    </ul>
+</header>
+
+<table>
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart_items %}
+            <tr>
+                <td>{{ item.product_name }}</td>
+                <td>{{ item.product_cost }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.product_cost * item.quantity }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td></td>
+            <td></td>
+            <td class="total">Total:</td>
+            <td class="total">{{ cart_total }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<footer>
+    <p>&copy; Ecommerce Store 2023</p>
+{% if session['username'] is defined %}
+    <form method="post" action="/logout">
+        <button type="submit">Logout</button>
+    </form>
+{% endif %}
+</footer>
+</body>
+</html>

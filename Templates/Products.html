@@ -8,7 +8,7 @@ body {
     background-color: white;
     color: black;
     margin: 0;
-    padding-bottom: 50px; /* to prevent the footer from overlapping content */
+    padding-bottom: 50px;
 }
 
 header {
@@ -39,7 +39,6 @@ li a:hover {
     background-color: white;
     color: red;
 }
-
 footer {
     background-color: red;
     color: white;
@@ -48,24 +47,20 @@ footer {
     bottom: 0;
     width: 100%;
     text-align: center;
+    opacity: 0.8;
 }
-    .product-image {
-        width: 200px;
-        height: 200px;
-        margin: 20px;
-    }
-    .Clothing {
-        border: 1px solid blue;
-    }
-    .Electronics {
-        border: 1px solid green;
-    }
-    .Soup {
-        border: 1px solid yellow;
-        }
-    .Seasoning {
-        border: 1px solid orange;
-        }
+.product-image {
+    width: 200px;
+    height: 200px;
+    margin: 20px;
+    float: left;
+}
+.Clothing, .Electronics, .Soup, .Seasoning, .snacks {
+    max-width: 300px;
+    margin: 20px;
+    padding: 10px;
+    float: left;
+}
     </style>
 </head>
 <body>
@@ -88,34 +83,29 @@ footer {
     </ul>
 </header>
 
-<form method="post" action="{{ url_for('Products') }}">
+<form method="post" action="{{ url_for('cart') }}">
     {% for product in products %}
         <div class="{{ product.product_type }}">
             <p> Product: {{ product.product_name }}</p>
             <p> Type: {{ product.product_type }}</p>
             <p> Price: {{ product.product_cost }}</p>
+            <p> Vendor Name: {{ product.vendor_name }} </p>
+            <button type="submit">Add to cart</button>
+            <button type="submit" id="review"> Review</button>
             <img src="{{ product.img_url }}" alt="{{ product.product_name }}" class="product-image">
+            <input type="number" name="quantity" value="1">
         </div>
     {% endfor %}
+    <button type="submit" formaction="{{ url_for('cart') }}">Proceed to Checkout</button>
 </form>
-{% if messages %}
-  <div class="chat">
-    {% for message in messages %}
-      <p>{{ message.username }} ({{ message.account_type }}): {{ message.message }}</p>
-      <br>
-    {% endfor %}
-  </div>
-{% else %}
-<br>
-{% endif %}
-<br>
+
 <footer>
     <p>&copy; Ecommerce Store 2023</p>
-    {% if session['username'] %}
-        <form method="post" action="/logout">
-            <button type="submit">Logout</button>
-        </form>
-    {% endif %}
+{% if session['username'] is defined %}
+    <form method="post" action="/logout">
+        <button type="submit">Logout</button>
+    </form>
+{% endif %}
 </footer>
 </body>
 </html>
