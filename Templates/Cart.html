@@ -77,12 +77,12 @@
         </tr>
     </thead>
     <tbody>
-        {% for item in cart_items %}
+        {% for product, quantity in cart_items %}
             <tr>
-                <td>{{ item.product_name }}</td>
-                <td>{{ item.product_cost }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.product_cost * item.quantity }}</td>
+                <td>{{ product.product_name }}</td>
+                <td>{{ product.product_cost }}</td>
+                <td>{{ quantity }}</td>
+                <td>{{ product.product_cost * quantity }}</td>
             </tr>
         {% endfor %}
         <tr>

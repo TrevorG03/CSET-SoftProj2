@@ -86,18 +86,17 @@ footer {
 <form method="post" action="{{ url_for('cart') }}">
     {% for product in products %}
         <div class="{{ product.product_type }}">
+            <h1> Type: {{ product.product_type }}</h1>
             <p> Product: {{ product.product_name }}</p>
-            <p> Type: {{ product.product_type }}</p>
             <p> Price: {{ product.product_cost }}</p>
-            <p> Vendor Name: {{ product.vendor_name }} </p>
+            <p> Vendor: {{ product.vendor_name }}</p>
             <button type="submit">Add to cart</button>
-            <button type="submit" id="review"> Review</button>
-            <img src="{{ product.img_url }}" alt="{{ product.product_name }}" class="product-image">
-            <input type="number" name="quantity" value="1">
+            <img src="{{ product.img_url }}" class="product-image">
+            <input type="hidden" name="product_id" value="{{ product.product_id }}">
         </div>
     {% endfor %}
-    <button type="submit" formaction="{{ url_for('cart') }}">Proceed to Checkout</button>
 </form>
+
 
 <footer>
     <p>&copy; Ecommerce Store 2023</p>

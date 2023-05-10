@@ -51,6 +51,70 @@
             font-size: 18px;
             line-height: 1.5;
         }
+        form {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: red;
+}
+
+input[type="text"],
+select {
+  display: block;
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button[type="submit"] {
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  margin-bottom: 5px;
+  color: red;
+}
+p.sent{
+color: white
+}
+.sent {
+    color: white;
+    background-color: #c0392b;
+    padding: 5px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.received {
+    color: #333;
+    background-color: #f1f1f1;
+    padding: 5px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-right: 10px;
+}
     </style>
 </head>
 <body>
@@ -79,7 +143,7 @@
         <label for="Your_User">Your Username:</label>
         <input type="text" name="Your_User" id="Your_User" required>
         <label for="username">Username:</label>
-        <input type="text" name="username" id="username" required>
+        <input type="text" name="username" id="username_send" required>
         <label for="account_type">Account Type:</label>
         <select id="account_type" name="account_type">
             <option value="Admin">Admin</option>
@@ -87,7 +151,7 @@
             <option value="User">User</option>
         </select>
         <label for="message">Message:</label>
-        <input type="text" name="message" id="message" required>
+        <input type="text" name="message" id="message_send" required>
         <button type="submit">Send Message</button>
     </form>
 <form method="post" action="{{ url_for('show_chats') }}">
@@ -97,23 +161,17 @@
 </form>
     <h1>Chat History for {{ username }}</h1>
     <hr>
-    <ul>
-      {% for chat in chats %}
-      <li>
-        <strong>{{ chat.sender_username }}:</strong> {{ chat.message }}
-      </li>
-      {% endfor %}
-    </ul>
-    <hr>
-    <form method="POST" action="{{ url_for('Chat') }}">
-      <input type="hidden" name="username" value="{{ username }}">
-      <input type="hidden" name="account_type" value="{{ account_type }}">
-      <input type="hidden" name="Your_User" value="{{ Your_User }}">
-      <label for="message">Message:</label>
-      <input type="text" name="message" id="message">
-      <button type="submit">Send</button>
-    </form>
-    <hr>
+<ul>
+  {% for chat in chats %}
+  <li>
+    {% if chat.sender_username == username %}
+    <p class="sent">{{ chat.sender_username }}:</p> <span class="received">{{ chat.message }}</span>
+    {% else %}
+    <p class="received">{{ chat.sender_username }}:</p> <span class="sent">{{ chat.message }}</span>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
 <footer>
     <p>&copy; Ecommerce Store 2023</p>
 {% if session['username'] is defined %}
