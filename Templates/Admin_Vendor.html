@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul>
+        <li><a href="/Admin_Vendor">Customer Page</a></li>
+        <li><a href="/Products">Products</a></li>
+        <li><a href="/VendorAdd">Product Add Page</a></li>
+        <li><a href="/Accounts">Accounts</a></li>
+        <li><a href="/Chat">Chat</a></li>
+    <li><a href="/Recieved">Recieved Orders</a></li>
+        {% if session['username'] %}
+            <h2>Account Details:</h2>
+            <p>Username: {{ session.username }}</p>
+        {% else %}
+            <p>Please log in to view your account details.</p>
+        {% endif %}
+    </ul>
+<h1></h1>
+</body>
+</html>

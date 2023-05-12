@@ -31,6 +31,51 @@
 
         tr:hover {background-color: #f5f5f5;}
 
+        .product {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+}
+
+.product img {
+  max-width: 100px;
+  margin-right: 20px;
+}
+
+.product h2 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.product p {
+  margin: 0;
+}
+
+.product .price {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.product .quantity {
+  width: 60px;
+  margin-right: 10px;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+.product .subtotal {
+  font-weight: bold;
+}
+
+.product .remove {
+  margin-left: auto;
+  color: red;
+  cursor: pointer;
+}
+
         .total {
             text-align: right;
             font-weight: bold;
@@ -52,47 +97,45 @@
     <h1>Cart Page:</h1>
     <ul>
         <li><a href="/">Home page</a></li>
-        <li><a href="/Registration">Registration</a></li>
-        <li><a href="/Login">Login</a></li>
         <li><a href="/Products">Products</a></li>
         <li><a href="/VendorAdd">Product Add Page</a></li>
         <li><a href="/Accounts">Accounts</a></li>
         <li><a href="/Chat">Chat</a></li>
-        {% if session['username'] %}
-            <h2>Account Details:</h2>
-            <p>Username: {{ session.username }}</p>
-        {% else %}
-            <p>Please log in to view your account details.</p>
-        {% endif %}
+        <?php if ($loggedIn) { ?>
+            <li><h2>Account Details:</h2></li>
+            <li><p>Username: <?php echo $username; ?></p></li>
+            <li>
+                <form method="post" action="/logout">
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+        <?php } else { ?>
+            <li><p>Please log in to view your account details.</p></li>
+        <?php } ?>
     </ul>
 </header>
-
-<table>
+  <h1>Shopping Cart</h1>
+  <table>
     <thead>
-        <tr>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-        </tr>
+      <tr>
+        <th>Product Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+      </tr>
     </thead>
     <tbody>
-        {% for product, quantity in cart_items %}
-            <tr>
-                <td>{{ product.product_name }}</td>
-                <td>{{ product.product_cost }}</td>
-                <td>{{ quantity }}</td>
-                <td>{{ product.product_cost * quantity }}</td>
-            </tr>
-        {% endfor %}
+      {% for item in cart_items %}
         <tr>
-            <td></td>
-            <td></td>
-            <td class="total">Total:</td>
-            <td class="total">{{ cart_total }}</td>
+          <td>{{ item[0].product_name }}</td>
+          <td>{{ item[0].product_cost }}</td>
+          <td>{{ item[1] }}</td>
+          <td>{{ item[0].product_cost * item[1] }}</td>
         </tr>
+      {% endfor %}
     </tbody>
-</table>
+  </table>
+  <div>Total: ${{ cart_total }}</div>
 
 <footer>
     <p>&copy; Ecommerce Store 2023</p>

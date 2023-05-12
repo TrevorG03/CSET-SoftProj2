@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banking Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        h1 {
+            color: #0077b6;
+            text-align: center;
+            margin-top: 50px;
+        }
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+        li {
+            float: left;
+        }
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        li a:hover {
+            background-color: #111;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 500px;
+            margin: 0 auto;
+        }
+        input[type="text"], input[type="number"], input[type="date"], input[type="password"], select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<h1>Add Your info to pay</h1>
+    <form action="" method="POST">
+        <h1>Withdraw Funds from Your account to a Card</h1>
+        <label for="card_number">Card Number</label>
+        <input type="text" id="card_number" name="card_number" placeholder="Enter card number to withdraw finds to.">
+
+        <label for="exp_date">Expiration Date</label>
+        <input type="date" id="exp_date" name="exp_date">
+
+        <label for="cvv">CVV</label>
+        <input type="password" id="cvv" name="cvv" placeholder="Enter CVV of your card">
+
+        <label for="amount">Amount</label>
+        <input type="number" id="amount" name="amount" placeholder="Enter amount To withdraw to your card">
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

@@ -8,13 +8,11 @@ body {
     font-family: Arial, sans-serif;
     background-color: #ff0000;
 }
-
 h1 {
     color: #ffffff;
     text-align: center;
     margin-top: 50px;
 }
-
 ul {
     list-style-type: none;
     margin: 0;
@@ -22,11 +20,9 @@ ul {
     overflow: hidden;
     background-color: #ff0000;
 }
-
 li {
     float: left;
 }
-
 li a {
     display: block;
     color: #ffffff;
@@ -34,11 +30,9 @@ li a {
     padding: 14px 16px;
     text-decoration: none;
 }
-
 li a:hover {
     background-color: #b30000;
 }
-
 form {
     margin: 50px auto;
     max-width: 500px;
@@ -47,13 +41,11 @@ form {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
-
 label {
     display: block;
     margin-bottom: 10px;
     font-weight: bold;
 }
-
 input[type="text"],
 input[type="password"],
 select {
@@ -63,7 +55,6 @@ select {
     border-radius: 5px;
     border: 1px solid #ccc;
 }
-
 input[type="submit"] {
     display: block;
     margin: 0 auto;
@@ -74,29 +65,31 @@ input[type="submit"] {
     border-radius: 5px;
     cursor: pointer;
 }
-
 input[type="submit"]:hover {
     background-color: #b30000;
 }
 </style>
 </head>
 <body>
-    <h1>Login to Your account after Approval</h1>
+    <header>
+    <h1>Chat Page:</h1>
     <ul>
         <li><a href="/">Home page</a></li>
-        <li><a href="/Registration">Registration</a></li>
-        <li><a href="/Login">Login</a></li>
-        <li><a href="/Products">Products</a></li>
-        <li><a href="/VendorAdd">Product Add Page</a></li>
-        <li><a href="/Accounts">Accounts</a></li>
-        <li><a href="/Chat">Chat</a></li>
-        {% if session['username'] %}
-            <h2>Account Details:</h2>
-            <p>Username: {{ session.username }}</p>
-        {% else %}
-            <p>Please log in to view your account details.</p>
-        {% endif %}
+        <li><a href="/Login">Products</a></li>
+        <li><a href="/Registration">Product Add Page</a></li>
+        <?php if ($loggedIn) { ?>
+            <li><h2>Account Details:</h2></li>
+            <li><p>Username: <?php echo $username; ?></p></li>
+            <li>
+                <form method="post" action="/logout">
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+        <?php } else { ?>
+            <li><p>Please log in to view your account details.</p></li>
+        <?php } ?>
     </ul>
+    </header>
     <h1>Login</h1>
     <form method="post" action="{{ url_for('Login') }}">
         <label for="username">Username:</label>

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session,flash,abort
 from sqlalchemy import Column, Integer, String, Numeric, create_engine, text
+from datetime import date
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'BigSecret21'
 conn_str = "mysql://root:Treyjg2121@localhost/ecommerce"
@@ -33,9 +34,9 @@ def Login():
         if user is None:
             return render_template('Login.html')
         if account_type == "Admin":
-            return render_template('Accounts.html')
+            return render_template('Admin_Vendor.html')
         if account_type == "Vendor":
-            return render_template('VendorAdd.html')
+            return render_template('Admin_Vendor.html')
         if account_type == "User":
             return render_template("Products.html")
     else:
@@ -44,7 +45,7 @@ def Login():
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
     try:
-        session.pop('id', None)
+        session.pop('username', None)
         flash('You have successfully logged out.', 'success')
     except KeyError:
         flash('You were not logged in to begin with.', 'error')
@@ -67,40 +68,46 @@ def Registration():
     else:
         return render_template("Registration.html")
 
-@app.route('/Products', methods=['GET','POST'])
+@app.route('/Products', methods=['GET', 'POST'])
 def Products():
-    if request.method == 'POST':
-        return render_template('Products.html')
-    else:
-        query = text("SELECT * FROM products")
-        with engine.connect() as conn:
-            products = conn.execute(query).fetchall()
-        return render_template('Products.html', products=products)
+    query = text("SELECT * FROM products")
+    with engine.connect() as conn:
+        products = conn.execute(query).fetchall()
+    return render_template('products.html', products=products)
 
-@app.route('/cart', methods=['GET', 'POST'])
+@app.route('/add_to_cart', methods=['GET', 'POST'])
+def add_to_cart():
+    product_id = request.args.get('product_id')
+    product_name = request.args.get('product_name')
+    product_type = request.args.get('product_type')
+    product_cost = request.args.get('product_cost')
+    product_quality = request.args.get('product_quality')
+    vendor_name = request.args.get('vendor_name')
+    img_url = request.args.get('img_url')
+    ordered_by = session['username']
+    if 'cart' not in session:
+        session['cart'] = []
+    session['cart'].append({
+        'product_id': product_id,
+        'product_name': product_name,
+        'product_type': product_type,
+        'product_cost': product_cost,
+        'product_quality': product_quality,
+        'vendor_name': vendor_name,
+        'img_url': img_url,
+        'ordered_by': ordered_by
+    })
+    return "Added to cart"
+
+@app.route('/cart', methods=['GET'])
 def cart():
-    if request.method == 'POST':
-        product_id = request.form.get('product_id')
-        if product_id:
-            if 'cart' not in session:
-                session['cart'] = {}
-            if product_id in session['cart']:
-                session['cart'][product_id] += 1
-            else:
-                session['cart'][product_id] = 1
-    cart_items = []
-    cart_total = 0
-    for product_id, quantity in session.get('cart', {}).items():
-            query = text("SELECT * FROM products WHERE product_id = :product_id")
-            params = {'product_id': product_id}
-            with engine.connect() as conn:
-                product = conn.execute(query, params).fetchone()
-            if product is not None:
-                cart_items.append((product, quantity))
-                cart_total += product.product_cost * quantity
-            return render_template('cart.html', cart_items=cart_items, cart_total=cart_total)
-
-
+    if 'username' not in session:
+        return redirect(url_for('Login'))
+    if 'cart' not in session:
+        session['cart'] = []
+    cart_items = session['cart']
+    cart_total = sum(item['product_cost'] for item in cart_items)
+    return render_template('cart.html', cart_items=cart_items, cart_total=cart_total)
 @app.route('/Accounts', methods=['GET','POST'])
 def Accounts():
     if 'username' in session:
@@ -188,5 +195,12 @@ def Review():
     else:
         return render_template('Review.html')
 
+@app.route("/Admin_Vendor", methods = ["GET","Post"])
+def adminVendor():
+    return render_template('Admin_Vendor.html')
+
+@app.route('/Recieved', methods = ["GET","POST"])
+def Recieved():
+    return render_template('Recieved Orders.html')
 if __name__ == '__main__':
     app.run(debug=True)

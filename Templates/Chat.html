@@ -59,13 +59,11 @@
   border-radius: 5px;
   background-color: white;
 }
-
 label {
   display: block;
   margin-bottom: 5px;
   color: red;
 }
-
 input[type="text"],
 select {
   display: block;
@@ -75,7 +73,6 @@ select {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
-
 button[type="submit"] {
   background-color: red;
   color: white;
@@ -84,13 +81,11 @@ button[type="submit"] {
   border-radius: 5px;
   cursor: pointer;
 }
-
 ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-
 li {
   margin-bottom: 5px;
   color: red;
@@ -106,7 +101,6 @@ color: white
     display: inline-block;
     margin-right: 10px;
 }
-
 .received {
     color: #333;
     background-color: #f1f1f1;
@@ -118,26 +112,28 @@ color: white
     </style>
 </head>
 <body>
-    <h1>Chat with other users, Contact Admins and Vendors with our chat feature</h1>
+    <header>
+    <h1>Chat Page:</h1>
     <ul>
         <li><a href="/">Home page</a></li>
-        <li><a href="/Registration">Registration</a></li>
-        <li><a href="/Login">Login</a></li>
         <li><a href="/Products">Products</a></li>
         <li><a href="/VendorAdd">Product Add Page</a></li>
         <li><a href="/Accounts">Accounts</a></li>
         <li><a href="/Chat">Chat</a></li>
-        {% if session['username'] %}
+        <li><a href="/Review">Review</a></li>
+        <?php if ($loggedIn) { ?>
+            <li><h2>Account Details:</h2></li>
+            <li><p>Username: <?php echo $username; ?></p></li>
             <li>
-                <h2>Account Details:</h2>
-                <p>Username: {{ session['username'] }}</p>
+                <form method="post" action="/logout">
+                    <button type="submit">Logout</button>
+                </form>
             </li>
-        {% else %}
-            <li>
-                <p>Please log in to view your account details.</p>
-            </li>
-        {% endif %}
+        <?php } else { ?>
+            <li><p>Please log in to view your account details.</p></li>
+        <?php } ?>
     </ul>
+</header>
     <p>Just input the desired information and your chat will be stored.</p>
     <form method="post" action="{{ url_for('Chat') }}">
         <label for="Your_User">Your Username:</label>
