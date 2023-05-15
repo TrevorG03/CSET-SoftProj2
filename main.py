@@ -1,11 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for, session,flash,abort
+# Import necessary modules
+from flask import Flask, render_template, request, redirect, url_for, session, flash, abort
 from sqlalchemy import Column, Integer, String, Numeric, create_engine, text
 from datetime import date
+
+# Create Flask app and set secret key
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'BigSecret21'
+
+# Create database connection
 conn_str = "mysql://root:Treyjg2121@localhost/ecommerce"
 engine = create_engine(conn_str, echo=True)
 conn = engine.connect()
+
 
 def t(str):
     alph = "abcdefghijklmnopqrstuvwxyz"
@@ -14,45 +20,59 @@ def t(str):
         sum += alph.find(char) + 1
     return sum
 
-@app.route("/", methods=['GET','POST'])
+
+# Define routes
+@app.route("/", methods=['GET', 'POST'])
 def index():
     return render_template("index.html")
 
-@app.route("/Login", methods=['GET','POST'])
+
+@app.route("/Login", methods=['GET', 'POST'])
 def Login():
     if request.method == 'POST':
         username = request.form['username']
-        session['username'] = username
         password = request.form['password']
-        session['password'] = password
         account_type = request.form['account_type']
-        session['account_type'] = account_type
-        user_query = text("select * from accounts where username = :username AND password = :password AND account_type = :account_type" )
-        params = {"username": username, "password": password, "account_type" :account_type}
-        with engine.connect() as conn:
-            user = conn.execute(user_query, params).fetchone()
+        # Query database for user account
+        user_query = text(
+            "select * from accounts where username = :username AND password = :password AND account_type = :account_type")
+        params = {"username": username, "password": password, "account_type": account_type}
+        result = conn.execute(user_query, params)
+        user = result.fetchone()
+        # Determine user account type and render appropriate template
         if user is None:
             return render_template('Login.html')
-        if account_type == "Admin":
-            return render_template('Admin_Vendor.html')
-        if account_type == "Vendor":
-            return render_template('Admin_Vendor.html')
-        if account_type == "User":
-            return render_template("Products.html")
+        else:
+            session['id']= user[0]
+            session['username'] = user[1]
+            session['password'] = user[2]
+            session['email'] = user[3]
+            session['account_type'] = user[4]
+            if user[4] == 'Admin':
+                return render_template('Accounts.html')
+            elif user[4] == 'Vendor':
+                return render_template('Admin_vendor.html')
+            else:
+                return render_template('Customer.html')
     else:
-        return render_template("Login.html")
+        return render_template('Login.html')
+
 
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
+    # Attempt to remove user data from session and redirect to login page
     try:
         session.pop('username', None)
         flash('You have successfully logged out.', 'success')
     except KeyError:
         flash('You were not logged in to begin with.', 'error')
     return redirect(url_for('Login'))
-@app.route("/Registration", methods=['GET','POST'])
+
+
+@app.route("/Registration", methods=['GET', 'POST'])
 def Registration():
     if request.method == 'POST':
+        # Get registration form data and insert into database
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
@@ -60,7 +80,7 @@ def Registration():
         query = text(
             "INSERT INTO accounts(username,password,email,account_type)"
             "VALUES(:username, :password, :email, :account_type)")
-        params = {"username": username,"password":password,"email":email,"account_type":account_type}
+        params = {"username": username, "password": password, "email": email, "account_type": account_type}
         with engine.connect() as conn:
             conn.execute(query, params)
             conn.commit()
@@ -68,46 +88,162 @@ def Registration():
     else:
         return render_template("Registration.html")
 
+
 @app.route('/Products', methods=['GET', 'POST'])
 def Products():
+    # Query database for all products and render product page
     query = text("SELECT * FROM products")
     with engine.connect() as conn:
         products = conn.execute(query).fetchall()
     return render_template('products.html', products=products)
 
-@app.route('/add_to_cart', methods=['GET', 'POST'])
-def add_to_cart():
-    product_id = request.args.get('product_id')
-    product_name = request.args.get('product_name')
-    product_type = request.args.get('product_type')
-    product_cost = request.args.get('product_cost')
-    product_quality = request.args.get('product_quality')
-    vendor_name = request.args.get('vendor_name')
-    img_url = request.args.get('img_url')
-    ordered_by = session['username']
-    if 'cart' not in session:
-        session['cart'] = []
-    session['cart'].append({
-        'product_id': product_id,
-        'product_name': product_name,
-        'product_type': product_type,
-        'product_cost': product_cost,
-        'product_quality': product_quality,
-        'vendor_name': vendor_name,
-        'img_url': img_url,
-        'ordered_by': ordered_by
-    })
-    return "Added to cart"
 
-@app.route('/cart', methods=['GET'])
-def cart():
-    if 'username' not in session:
-        return redirect(url_for('Login'))
-    if 'cart' not in session:
-        session['cart'] = []
-    cart_items = session['cart']
-    cart_total = sum(item['product_cost'] for item in cart_items)
-    return render_template('cart.html', cart_items=cart_items, cart_total=cart_total)
+
+@app.route('/cart', methods=['GET', 'POST'])
+def cart(conn = engine.connect()):
+    if request.method == 'POST':
+        query = text("SELECT * FROM products")
+        result = conn.execute(query)
+        product = []
+        for row in result:
+            product.append(row)
+        max_cart_id =  text("SELECT MAX(cart_id) AS max_id FROM cart")
+        results = conn.execute(max_cart_id).fetchone()
+        max_id = results[0] if results[0] is not None else 1
+        max_id = int(max_id)
+        new_id = max_id + 1
+        cart_id = new_id
+        item_id = request.form['product_id']
+        product_name = request.form['product_name']
+        product_type = request.form['product_type']
+        product_quantity = request.form['product_quantity']
+        product_cost = request.form['product_cost']
+        vendor_name = request.form['vendor_name']
+        img_url = request.form['img_url']
+        shopper_id = session['id']
+        status = 'open'
+        Cart_query = text("SELECT cart_id FROM cart WHERE shopper_id = :shopper_id AND status = 'open'")
+        Cart_result = conn.execute(Cart_query, {"shopper_id": shopper_id}).fetchone()
+        if Cart_result:
+            with engine.connect() as conn:
+                cart_id = Cart_result[0]
+                Item_query = text("SELECT * FROM cart WHERE cart_id = :cart_id AND item_id = :item_id")
+                Item_result = conn.execute(Item_query,{"cart_id": cart_id, "item_id": item_id}).fetchone()
+            if Item_result:
+                previous_amount = int(Item_result[4])
+                new_amount = previous_amount + int(product_quantity)
+                update_query = text("UPDATE cart SET product_quantity = :new_amount "
+                                    "WHERE cart_id = :cart_id AND item_id = :item_id")
+                update_params = {
+                    "new_amount": new_amount,
+                    "cart_id": cart_id,
+                    "item_id": item_id
+                }
+                with engine.connect() as conn:
+                    conn.execute(update_query, update_params)
+                    conn.commit()
+            else:
+            #Add an item to exisiting cart
+                query = text("INSERT INTO cart (cart_id,"
+                         " shopper_id, "
+                         "item_id, "
+                         "product_name, "
+                         "product_type, "
+                         "product_cost, "
+                         "product_quantity, "
+                         "vendor_name, "
+                         "img_url, "
+                         "ordered_by, "
+                         "status) "
+                            "VALUES (:cart_id, "
+                         ":shopper_id, "
+                         ":item_id, "
+                         ":product_name, "
+                         ":product_type, "
+                         ":product_cost, "
+                         ":product_quantity, "
+                         ":vendor_name, "
+                         ":img_url, "
+                         ":ordered_by, "
+                         ":status)")
+                params = {
+                "cart_id": cart_id,
+                "shopper_id": shopper_id,
+                "item_id": item_id,
+                "product_name": product_name,
+                "product_type": product_type,
+                "product_cost": product_cost,
+                "product_quantity": product_quantity,
+                "vendor_name": vendor_name,
+                "img_url": img_url,
+                "ordered_by": session['username'],
+                "status": status
+                }
+                with engine.connect() as conn:
+                    conn.execute(query, params)
+                    conn.commit()
+            return redirect(url_for('Products'))
+        else:
+        #Create a cart
+            query = text("INSERT INTO cart (cart_id,"
+                     " shopper_id, "
+                     "item_id, "
+                     "product_name, "
+                     "product_type, "
+                     "product_cost, "
+                     "product_quantity, "
+                     "vendor_name, "
+                     "img_url, "
+                     "ordered_by, "
+                     "status) "
+                     "VALUES (:cart_id, "
+                     ":shopper_id, "
+                     ":item_id, "
+                     ":product_name, "
+                     ":product_type, "
+                     ":product_cost, "
+                     ":product_quantity, "
+                     ":vendor_name, "
+                     ":img_url, "
+                     ":ordered_by, "
+                     ":status)")
+            params = {
+                "cart_id": cart_id,
+                "shopper_id": shopper_id,
+                "item_id": item_id,
+                "product_name": product_name,
+                "product_type": product_type,
+                "product_cost": product_cost,
+                "product_quantity": product_quantity,
+                "vendor_name": vendor_name,
+                "img_url": img_url,
+                "ordered_by": session['username'],
+                "status": status
+            }
+            with engine.connect() as conn:
+                conn.execute(query, params)
+                conn.commit()
+            return render_template("Products.html")
+
+@app.route('/view_cart')
+def view_cart():
+    if 'id' in session:
+        shopper_id = session['id']
+        with engine.connect() as conn:
+            query = text("SELECT * FROM cart WHERE shopper_id = :shopper_id AND status = 'open'")
+            items = conn.execute(query, {"shopper_id": shopper_id}).fetchall()
+        return render_template('cart.html', items=items)
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/remove_item/<int:item_id>', methods=['POST'])
+def remove_item(item_id):
+    with engine.connect() as conn:
+        query = text("DELETE FROM cart WHERE item_id = :item_id")
+        conn.execute(query, {"item_id": item_id})
+        conn.commit()
+    return redirect(url_for('view_cart'))
+
 @app.route('/Accounts', methods=['GET','POST'])
 def Accounts():
     if 'username' in session:
@@ -201,6 +337,14 @@ def adminVendor():
 
 @app.route('/Recieved', methods = ["GET","POST"])
 def Recieved():
-    return render_template('Recieved Orders.html')
+    @app.route('/Products', methods=['GET', 'POST'])
+    def Products():
+        # Query database for all products and render product page
+        query = text("SELECT * FROM Recieved Where ")
+        with engine.connect() as conn:
+            orders = conn.execute(query).fetchall()
+        return render_template('Recieved Orders.html', orders = orders)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

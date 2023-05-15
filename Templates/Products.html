@@ -140,6 +140,7 @@ footer {
         <li><a href="/VendorAdd">Product Add Page</a></li>
         <li><a href="/Accounts">Accounts</a></li>
         <li><a href="/Chat">Chat</a></li>
+        <li><a href="/view_cart">View Cart</a></li>
         {% if session['username'] %}
             <p>Account Details:</p>
             <p>Username: {{ session.username }}</p>
@@ -149,17 +150,27 @@ footer {
     </ul>
 </header>
 <form method="post" action="{{ url_for('cart') }}">
+
 {% for product in products %}
 <div class="product {{ product.product_type }}">
   <img src="{{ product.img_url }}" alt="{{ product.product_name }}" class="product-image">
   <div class="product-details">
-    <h2 class="product-type">{{ product.product_type }}</h2>
-    <h3 class="product-name">{{ product.product_name }}</h3>
-    <p class="product-price">{{ product.product_cost }}</p>
-    <p class="product-vendor">Sold by {{ product.vendor_name }}</p>
+    <h2 class="product-type" name="product_type">{{ product.product_type }}</h2>
+    <h3 class="product-name" name="product_name">{{ product_name }}</h3>
+      <p class="product-price" name="product_cost">{{ product.product_cost }}</p>
+    <p class="product-vendor" name="vendor_name">Sold by {{ product.vendor_name }}</p>
+    <input type="number" name="product_quantity" min="1" value="1" placeholder="Quantity">
   </div>
-    <button type="submit">Add to cart</button>
-    <input type="hidden" name="product_id" value="{{ product.product_id }}">
+    <form method="post" action="{{ url_for('cart') }}">
+        <input type="hidden" name="product_id" value="{{ product.id }}">
+        <input type="hidden" name="product_type" value="{{ product.product_type }}">
+        <input type="hidden" name="product_name" value="{{ product.product_name }}">
+        <input type="hidden" name="product_cost" value="{{ product.product_cost }}">
+        <input type="hidden" name="product_quantity" value="{{ product.product_quantity }}">
+        <input type="hidden" name="vendor_name" value="{{ product.vendor_name }}">
+        <input type="hidden" name="img_url" value="{{ product.img_url }}">
+      <button type="submit">Add to cart</button>
+    </form>
     <label for="Colors">Select a Color</label>
     <select id="Colors" name="Colors">
       <option value="Red">Red</option>
@@ -177,8 +188,9 @@ footer {
       <option value="XX Large">XX Large</option>
     </select>
     {% endfor %}
+    </div>
 </form>
-</div>
+
 
 <footer>
     <p>&copy; Ecommerce Store 2023</p>

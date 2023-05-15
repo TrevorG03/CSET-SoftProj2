@@ -72,7 +72,7 @@ input[type="submit"]:hover {
 </head>
 <body>
     <header>
-    <h1>Chat Page:</h1>
+    <h1>Login Page:</h1>
     <ul>
         <li><a href="/">Home page</a></li>
         <li><a href="/Login">Products</a></li>
@@ -91,7 +91,7 @@ input[type="submit"]:hover {
     </ul>
     </header>
     <h1>Login</h1>
-    <form method="post" action="{{ url_for('Login') }}">
+    <form method="POST" action="{{ url_for('Login') }}">
         <label for="username">Username:</label>
         <input type="text" name="username" id="username" required>
         <label for="password">Password:</label>
