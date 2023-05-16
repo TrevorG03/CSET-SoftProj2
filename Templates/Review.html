@@ -5,78 +5,91 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style>
-		body {
-			font-family: Arial, sans-serif;
-			margin: 0;
-			padding: 0;
-			background-color: #e6e6e6;
-		}
-		header {
-			background-color: #ff4d4d;
-			color: white;
-			padding: 20px;
-			text-align: center;
-		}
-		h1 {
-			margin: 0;
-		}
-		main {
-			max-width: 800px;
-			margin: 20px auto;
-			padding: 20px;
-			background-color: white;
-			border-radius: 5px;
-			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-		}
-		label {
-			display: block;
-			margin-top: 10px;
-			font-weight: bold;
-		}
-		input[type="text"],
-		textarea {
-			width: 100%;
-			padding: 10px;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-			margin-bottom: 20px;
-			box-sizing: border-box;
-			background-color: #f2f2f2;
-		}
-		select {
-			width: 100%;
-			padding: 10px;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-			margin-bottom: 20px;
-			box-sizing: border-box;
-			background-color: #f2f2f2;
-		}
-		button {
-			background-color: #ff4d4d;
-			color: white;
-			padding: 10px 20px;
-			border: none;
-			border-radius: 5px;
-			cursor: pointer;
-			font-size: 16px;
-		}
-		button:hover {
-			background-color: #e60000;
-		}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+}
+
+header {
+    background-color: #ff0000;
+    color: #ffffff;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 2px solid #ffffff;
+}
+
+h1 {
+    margin: 0;
+}
+
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    border: 2px solid #ff0000;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ff0000;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ff0000;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+
+button {
+    background-color: #ff0000;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #e60000;
+}
+ul.menu {
+    list-style: none;
+}
 	</style>
 </head>
 <body>
 	<header>
 		<h1>Website Review</h1>
 		<p>Please share your thoughts on our website</p>
-        <ul>
-        <li><a href="/Customer">Customer page</a></li>
-        <li><a href="/Products">Products</a></li>
-        <li><a href="/VendorAdd">Product Add Page</a></li>
-        <li><a href="/Accounts">Accounts</a></li>
-        <li><a href="/Chat">Chat</a></li>
-        <li><a href="/Review">Review</a></li>
+        <ul class="menu">
+    <li><a href="/Customer">Customer page</a></li>
+    <li><a href="/Products">Products</a></li>
+    <li><a href="/VendorAdd">Product Add Page</a></li>
+    <li><a href="/Accounts">Accounts</a></li>
+    <li><a href="/Chat">Chat</a></li>
+    <li><a href="/Review">Review</a></li>
         <?php if ($loggedIn) { ?>
             <li><h2>Account Details:</h2></li>
             <li><p>Username: <?php echo $username; ?></p></li>
@@ -92,7 +105,7 @@
 	</header>
 	<main>
 		<form>
-			<label for="name">Name:</label>
+			<label for="usernameaa">Name:</label>
 			<input type="text" id="name" name="name" required>
 			<label for="email">Email:</label>
 				<input type="text" id="email" name="email" required>

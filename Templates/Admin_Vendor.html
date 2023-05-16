@@ -2,13 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Admin/Vendor Landing Page</title>
     <style>
         body {
             background-color: white;
         }
         h1 {
             color: red;
+        }
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: red;
+        }
+        li {
+            float: left;
+        }
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        li a:hover {
+            background-color: #b30000;
         }
     </style>
 </head>
@@ -20,14 +43,24 @@
         <li><a href="/VendorAdd">Product Add Page</a></li>
         <li><a href="/Accounts">Accounts</a></li>
         <li><a href="/Chat">Chat</a></li>
-        <li><a href="/Recieved">Received Orders</a></li>
-        
+        <li><a href="/Recieved_Orders">Received Orders</a></li>
+
         {% if session['username'] %}
-            <h2>Account Details:</h2>
-            <p>Username: {{ session.username }}</p>
+            <li><h2>Account Details:</h2></li>
+            <li><p>Username: {{ session.username }}</p></li>
+
+                <li>
+                <form method="post" action="/logout">
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
         {% else %}
-            <p>Please log in to view your account details.</p>
+            <li><p>Please log in to view your account details.</p></li>
         {% endif %}
     </ul>
+                <p>Admins have full control over the site's functionality, including managing user accounts, products, and orders.</p></li>
+                <p>Vendors have access to add and manage your own products, view your sales, and communicate with customers.</p></li>
+
+
 </body>
 </html>

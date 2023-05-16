@@ -230,7 +230,6 @@ def view_cart():
         with engine.connect() as conn:
             query = text("SELECT * FROM cart WHERE shopper_id = :shopper_id AND status = 'open'")
             items = conn.execute(query, {"shopper_id": shopper_id}).fetchall()
-
             cart_query = text("SELECT cart_id FROM cart WHERE shopper_id = :shopper_id AND status = 'open'")
             cart_result = conn.execute(cart_query, {"shopper_id": shopper_id}).fetchone()
             cart_id = cart_result[0] if cart_result else None
@@ -261,6 +260,27 @@ def place_Order(cart_id):
 def confirm():
     return render_template('confirmation.html')
 
+@app.route('/My_Orders', methods=['GET', 'POST'])
+def My_Orders():
+    if 'username' in session:
+        shopper_id = session['id']
+        query = text("SELECT * FROM cart WHERE status = 'closed' AND shopper_id = :shopper_id")
+        params = {'shopper_id': shopper_id}
+        with engine.connect() as conn:
+            orders = conn.execute(query, params).fetchall()
+        return render_template('Ordered.html', orders=orders, shopper_id=shopper_id)
+    else:
+        return redirect(url_for('Login'))
+
+@app.route('/Recieved_Orders', methods=['GET', 'POST'])
+def Recieved_Orders():
+    if 'username' in session:
+        query = text("SELECT * FROM cart WHERE status = 'closed'")
+        with engine.connect() as conn:
+            orders = conn.execute(query).fetchall()
+        return render_template('Recieved_Orders.html', orders=orders,)
+    else:
+        return redirect(url_for('Login'))
 @app.route('/Accounts', methods=['GET','POST'])
 def Accounts():
     if 'username' in session:
