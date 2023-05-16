@@ -19,7 +19,7 @@ def t(str):
     for char in str:
         sum += alph.find(char) + 1
     return sum
-
+lalala
 
 # Define routes
 @app.route("/", methods=['GET', 'POST'])
