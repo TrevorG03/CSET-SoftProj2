@@ -49,11 +49,11 @@ def Login():
             session['email'] = user[3]
             session['account_type'] = user[4]
             if user[4] == 'Admin':
-                return render_template('Admin_vendor.html',user=user)
+                return render_template('Admin_vendor.html')
             elif user[4] == 'Vendor':
-                return render_template('Admin_vendor.html',user=user)
+                return render_template('Admin_vendor.html')
             else:
-                return render_template('Customer.html',user=user)
+                return render_template('Customer.html')
     else:
         return render_template('Login.html')
 
@@ -96,19 +96,6 @@ def Products():
         products = conn.execute(query).fetchall()
     return render_template('products.html', products=products)
 
-@app.route('/remove-product/<id>', methods=['POST'])
-def remove_product(product_id):
-    if request.method == 'POST':
-        account_type=session['account_type']
-        if account_type == 'Admin':
-            query = text("DELETE FROM products WHERE id = :id")
-            conn.execute(query, {"id": id})
-            conn.commit()
-            return f'Product with ID {product_id} has been removed'
-        else:
-            return 'You are not authorized to perform this action', 403
-    else:
-        return 'Invalid request method', 405
 
 @app.route('/cart', methods=['GET', 'POST'])
 def cart(conn = engine.connect()):
@@ -243,7 +230,6 @@ def view_cart():
         with engine.connect() as conn:
             query = text("SELECT * FROM cart WHERE shopper_id = :shopper_id AND status = 'open'")
             items = conn.execute(query, {"shopper_id": shopper_id}).fetchall()
-
             cart_query = text("SELECT cart_id FROM cart WHERE shopper_id = :shopper_id AND status = 'open'")
             cart_result = conn.execute(cart_query, {"shopper_id": shopper_id}).fetchone()
             cart_id = cart_result[0] if cart_result else None
@@ -386,13 +372,7 @@ def Review():
 def adminVendor():
     return render_template('Admin_Vendor.html')
 
-@app.route('/Pay', methods= ['GET','POST'])
-def Pay():
-    return render_template('Payment.html')
 
-@app.route('/Customer')
-def Customer():
-    return render_template('Customer.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
