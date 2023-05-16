@@ -93,17 +93,6 @@ input[type="submit"]:hover {
         <li><a href="/">Home page</a></li>
         <li><a href="/Login">Products</a></li>
         <li><a href="/Registration">Product Add Page</a></li>
-        <?php if ($loggedIn) { ?>
-            <li><h2>Account Details:</h2></li>
-            <li><p>Username: <?php echo $username; ?></p></li>
-            <li>
-                <form method="post" action="/logout">
-                    <button type="submit">Logout</button>
-                </form>
-            </li>
-        <?php } else { ?>
-            <li><p>Please log in to view your account details.</p></li>
-        <?php } ?>
     </ul>
     </header>
     <h1>Login</h1>

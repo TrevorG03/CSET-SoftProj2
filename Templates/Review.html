@@ -1,14 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Review</title>
+	<title>Website Review</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+			background-color: #e6e6e6;
+		}
+		header {
+			background-color: #ff4d4d;
+			color: white;
+			padding: 20px;
+			text-align: center;
+		}
+		h1 {
+			margin: 0;
+		}
+		main {
+			max-width: 800px;
+			margin: 20px auto;
+			padding: 20px;
+			background-color: white;
+			border-radius: 5px;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+		}
+		label {
+			display: block;
+			margin-top: 10px;
+			font-weight: bold;
+		}
+		input[type="text"],
+		textarea {
+			width: 100%;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			margin-bottom: 20px;
+			box-sizing: border-box;
+			background-color: #f2f2f2;
+		}
+		select {
+			width: 100%;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			margin-bottom: 20px;
+			box-sizing: border-box;
+			background-color: #f2f2f2;
+		}
+		button {
+			background-color: #ff4d4d;
+			color: white;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 16px;
+		}
+		button:hover {
+			background-color: #e60000;
+		}
+	</style>
 </head>
 <body>
-    <header>
-    <h1>Chat Page:</h1>
-    <ul>
-        <li><a href="/">Home page</a></li>
+	<header>
+		<h1>Website Review</h1>
+		<p>Please share your thoughts on our website</p>
+        <ul>
+        <li><a href="/Customer">Customer page</a></li>
         <li><a href="/Products">Products</a></li>
         <li><a href="/VendorAdd">Product Add Page</a></li>
         <li><a href="/Accounts">Accounts</a></li>
@@ -26,19 +89,26 @@
             <li><p>Please log in to view your account details.</p></li>
         <?php } ?>
     </ul>
-</header>
-    <form method="post" action="{{ url_for('review') }}">
-        <label for="product_name">product_name:</label>
-        <input type="text" name="product_name" id="product_name" required>
-        <label for="product_type">product_type:</label>
-        <input type="text" name="product_type" id="product_type" required>
-        <label for="product_cost">product_cost:</label>
-        <input type="text" name="product_cost" id="product_cost" required>
-        <label for="Vendor_name">Vendor_name:</label>
-        <input type="text" name="Vendor_name" id="Vendor_name" required>
-        <label for="review"> Review: </label>
-        <input type="text" name="Review" id="Review" required>
-        <button type="submit">Add Item</button>
-    </form>
+	</header>
+	<main>
+		<form>
+			<label for="name">Name:</label>
+			<input type="text" id="name" name="name" required>
+			<label for="email">Email:</label>
+				<input type="text" id="email" name="email" required>
+			<label for="rating">Rating:</label>
+				<select id="rating" name="rating" required>
+					<option value="">Please select one...</option>
+					<option value="1">1 - Poor</option>
+					<option value="2">2 - Fair</option>
+					<option value="3">3 - Good</option>
+					<option value="4">4 - Very Good</option>
+					<option value="5">5 - Excellent</option>
+				</select>
+			<label for="review">Review:</label>
+				<textarea id="review" name="review" rows="10" required></textarea>
+			<button type="submit">Submit Review</button>
+		</form>
+	</main>
 </body>
 </html>

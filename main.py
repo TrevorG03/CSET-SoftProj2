@@ -49,7 +49,7 @@ def Login():
             session['email'] = user[3]
             session['account_type'] = user[4]
             if user[4] == 'Admin':
-                return render_template('Accounts.html')
+                return render_template('Admin_vendor.html')
             elif user[4] == 'Vendor':
                 return render_template('Admin_vendor.html')
             else:
@@ -91,7 +91,6 @@ def Registration():
 
 @app.route('/Products', methods=['GET', 'POST'])
 def Products():
-    # Query database for all products and render product page
     query = text("SELECT * FROM products")
     with engine.connect() as conn:
         products = conn.execute(query).fetchall()
@@ -336,11 +335,8 @@ def adminVendor():
 
 @app.route('/orders')
 def orders():
-    if 'id' not in session:
-        return redirect(url_for('login'))
-    else:
-        user_id = session['id']
-        orders = []
+    if request.method == 'POST':
+
         return render_template('orders.html', username=session['username'], orders=orders)
 
 if __name__ == '__main__':
