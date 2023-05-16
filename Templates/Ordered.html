@@ -3,8 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+body {
+  font-family: Arial, sans-serif;
+  background-color: white;
+  color: black;
+}
+
+h1 {
+  font-size: 36px;
+  text-align: center;
+  color: red;
+  margin-top: 20px;
+}
+
+hr {
+  border: none;
+  border-top: 2px solid red;
+  margin-top: 20px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+.sent {
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.received {
+  background-color: white;
+  color: black;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+/* Color Theme */
+body {
+  background-color: white;
+  color: black;
+}
+
+h1 {
+  color: red;
+}
+
+hr {
+  border-top-color: red;
+}
+
+.sent {
+  background-color: red;
+  color: white;
+}
+
+.received {
+  background-color: white;
+  color: black;
+}</style>
 </head>
 <body>
-
+<h1>Order History for {{ username }}</h1>
+    <hr>
+<ul>
+  {% for order in orders %}
+  <li>
+    {% if order.sender_username == username %}
+    <p class="sent">{{ chat.sender_username }}:</p> <span class="received">{{ chat.message }}</span>
+    {% else %}
+    <p class="received">{{ chat.sender_username }}:</p> <span class="sent">{{ chat.message }}</span>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
 </body>
 </html>

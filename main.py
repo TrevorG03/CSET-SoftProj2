@@ -98,7 +98,6 @@ def Products():
     return render_template('products.html', products=products)
 
 
-
 @app.route('/cart', methods=['GET', 'POST'])
 def cart(conn = engine.connect()):
     if request.method == 'POST':
@@ -335,16 +334,14 @@ def Review():
 def adminVendor():
     return render_template('Admin_Vendor.html')
 
-@app.route('/Recieved', methods = ["GET","POST"])
-def Recieved():
-    @app.route('/Products', methods=['GET', 'POST'])
-    def Products():
-        # Query database for all products and render product page
-        query = text("SELECT * FROM Recieved Where ")
-        with engine.connect() as conn:
-            orders = conn.execute(query).fetchall()
-        return render_template('Recieved Orders.html', orders = orders)
-
+@app.route('/orders')
+def orders():
+    if 'id' not in session:
+        return redirect(url_for('login'))
+    else:
+        user_id = session['id']
+        orders = []
+        return render_template('orders.html', username=session['username'], orders=orders)
 
 if __name__ == '__main__':
     app.run(debug=True)

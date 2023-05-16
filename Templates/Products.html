@@ -4,129 +4,131 @@
     <meta charset="UTF-8">
     <title>Products Page</title>
     <style>
-body {
-    background-color: white;
-    color: black;
-    margin: 0;
-    padding-bottom: 50px;
-}
+        body {
+            background-color: white;
+            color: black;
+            margin: 0;
+            padding-bottom: 50px;
+        }
 
-header {
-    background-color: red;
-    color: white;
-    padding: 10px;
-    margin-bottom: 20px;
-}
+        header {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
 
-ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
 
-li {
-    display: inline-block;
-    margin-right: 10px;
-}
+        li {
+            display: inline-block;
+            margin-right: 10px;
+        }
 
-li a {
-    color: white;
-    text-decoration: none;
-    padding: 10px;
-}
+        li a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+        }
 
-li a:hover {
-    background-color: white;
-    color: red;
-}
-footer {
-    background-color: red;
-    color: white;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    opacity: 0.8;
-}
-.product {
-  margin-bottom: 20px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+        li a:hover {
+            background-color: white;
+            color: red;
+        }
 
-.product-image {
-  width: 200px;
-  height: 200px;
-  margin-right: 20px;
-  flex: 0 0 auto;
-}
+        footer {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            opacity: 0.8;
+        }
 
-.product-details {
-  flex: 1 1 auto;
-}
+        .product {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-.product-type {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
+        .product-image {
+            width: 200px;
+            height: 200px;
+            margin-right: 20px;
+            flex: 0 0 auto;
+        }
 
-.product-name {
-  font-size: 16px;
-  margin-bottom: 10px;
-}
+        .product-details {
+            flex: 1 1 auto;
+        }
 
-.product-price {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
+        .product-type {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
 
-.product-vendor {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 10px;
-}
+        .product-name {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
 
-.product-add-to-cart {
-  flex: 0 0 auto;
-}
+        .product-price {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
 
-.Clothing {
-  background-color: blue;
-}
+        .product-vendor {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
 
-.Electronics {
-  background-color: green;
-}
+        .product-add-to-cart {
+            flex: 0 0 auto;
+        }
 
-.Meat {
-  background-color: red;
-}
+        .Clothing {
+            background-color: white;
+        }
 
-.Frozen {
-  background-color: yellow;
-}
+        .Electronics {
+            background-color: white;
+        }
 
-.Seasoning {
-  background-color: orange;
-}
+        .Meat {
+            background-color: white;
+        }
 
-.Snacks {
-  background-color: purple;
-}
+        .Frozen {
+            background-color: white;
+        }
 
-.Produce {
-  background-color: pink;
-}
+        .Seasoning {
+            background-color: white;
+        }
 
-.products {
-  display: flex;
-  flex-wrap: wrap;
-}
+        .Snacks {
+            background-color: white;
+        }
+
+        .Produce {
+            background-color: white;
+        }
+
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+        }
     </style>
 </head>
 <body>
@@ -161,7 +163,6 @@ footer {
     <p class="product-vendor" name="vendor_name">Sold by {{ product.vendor_name }}</p>
     <input type="number" name="product_quantity" min="1" value="1" placeholder="Quantity">
   </div>
-    <form method="post" action="{{ url_for('cart') }}">
         <input type="hidden" name="product_id" value="{{ product.id }}">
         <input type="hidden" name="product_type" value="{{ product.product_type }}">
         <input type="hidden" name="product_name" value="{{ product.product_name }}">
@@ -170,7 +171,6 @@ footer {
         <input type="hidden" name="vendor_name" value="{{ product.vendor_name }}">
         <input type="hidden" name="img_url" value="{{ product.img_url }}">
       <button type="submit">Add to cart</button>
-    </form>
     <label for="Colors">Select a Color</label>
     <select id="Colors" name="Colors">
       <option value="Red">Red</option>

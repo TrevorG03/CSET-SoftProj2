@@ -5,8 +5,9 @@
     <title>Title</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             background-color: #fff;
+            color: #333;
+            font-family: Arial, sans-serif;
         }
         h1 {
             color: #c0392b;
@@ -36,79 +37,69 @@
         li a:hover {
             background-color: #a43227;
         }
-        .benefits {
+        .container {
             margin: 50px auto;
             max-width: 800px;
-            text-align: center;
-        }
-        .benefits h2 {
-            color: #c0392b;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .benefits p {
-            color: #333;
-            font-size: 18px;
-            line-height: 1.5;
         }
         form {
-  display: inline-block;
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: white;
-}
-label {
-  display: block;
-  margin-bottom: 5px;
-  color: red;
-}
-input[type="text"],
-select {
-  display: block;
-  width: 100%;
-  padding: 5px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-button[type="submit"] {
-  background-color: red;
-  color: white;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-li {
-  margin-bottom: 5px;
-  color: red;
-}
-p.sent{
-color: white
-}
-.sent {
-    color: white;
-    background-color: #c0392b;
-    padding: 5px;
-    border-radius: 5px;
-    display: inline-block;
-    margin-right: 10px;
-}
-.received {
-    color: #333;
-    background-color: #f1f1f1;
-    padding: 5px;
-    border-radius: 5px;
-    display: inline-block;
-    margin-right: 10px;
-}
+            display: inline-block;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #c0392b;
+            font-weight: bold;
+        }
+        input[type="text"],
+        select {
+            display: block;
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button[type="submit"] {
+            background-color: #c0392b;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .chat-history {
+            margin: 50px auto;
+            max-width: 800px;
+        }
+        .chat-history ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .chat-history li {
+            margin-bottom: 10px;
+        }
+        .chat-history .sent {
+            color: white;
+            background-color: #c0392b;
+            padding: 5px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .chat-history .received {
+            color: #333;
+            background-color: #f1f1f1;
+            padding: 5px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
