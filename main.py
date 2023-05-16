@@ -230,9 +230,16 @@ def view_cart():
         with engine.connect() as conn:
             query = text("SELECT * FROM cart WHERE shopper_id = :shopper_id AND status = 'open'")
             items = conn.execute(query, {"shopper_id": shopper_id}).fetchall()
-        return render_template('cart.html', items=items)
-    else:
-        return redirect(url_for('login'))
+
+            cart_query = text("SELECT cart_id FROM cart WHERE shopper_id = :shopper_id AND status = 'open'")
+            cart_result = conn.execute(cart_query, {"shopper_id": shopper_id}).fetchone()
+            cart_id = cart_result[0] if cart_result else None
+            if cart_id is None:
+                update_query = text("INSERT INTO cart (shopper_id, status) VALUES (:shopper_id, 'open') RETURNING cart_id")
+                cart_id = conn.execute(update_query, {"shopper_id": shopper_id}).fetchone()[0]
+
+        return render_template('cart.html', items=items, cart_id=cart_id)
+
 
 @app.route('/remove_item/<int:item_id>', methods=['POST'])
 def remove_item(item_id):
@@ -241,6 +248,18 @@ def remove_item(item_id):
         conn.execute(query, {"item_id": item_id})
         conn.commit()
     return redirect(url_for('view_cart'))
+
+@app.route('/place_Order/<int:cart_id>', methods = ['POST'])
+def place_Order(cart_id):
+    query = text("UPDATE cart SET status = 'closed' WHERE cart_id = :cart_id")
+    conn.execute(query, {"cart_id": cart_id})
+    conn.commit()
+    flash("Order Placed!")
+    return redirect(url_for('confirm'))
+
+@app.route('/confirm', methods = ['GET','Post'])
+def confirm():
+    return render_template('confirmation.html')
 
 @app.route('/Accounts', methods=['GET','POST'])
 def Accounts():
@@ -333,11 +352,7 @@ def Review():
 def adminVendor():
     return render_template('Admin_Vendor.html')
 
-@app.route('/orders')
-def orders():
-    if request.method == 'POST':
 
-        return render_template('orders.html', username=session['username'], orders=orders)
 
 if __name__ == '__main__':
     app.run(debug=True)
