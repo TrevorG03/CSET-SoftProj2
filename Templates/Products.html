@@ -5,127 +5,132 @@
     <title>Products Page</title>
     <style>
 body {
-    background-color: white;
-    color: black;
-    margin: 0;
-    padding-bottom: 50px;
+  background-color: white;
+  color: red;
+}
+img {
+  max-width: 200px;
+  max-height: 150px;
+}
+h1, h2, h3 {
+  color: red;
 }
 
-header {
-    background-color: red;
-    color: white;
-    padding: 10px;
-    margin-bottom: 20px;
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: red;
+        }
+        li {
+            float: left;
+        }
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        li a:hover {
+            background-color: #b30000;
+        }
+a {
+  color: red;
 }
-
-ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-li {
-    display: inline-block;
-    margin-right: 10px;
-}
-
-li a {
-    color: white;
-    text-decoration: none;
-    padding: 10px;
-}
-
-li a:hover {
-    background-color: white;
-    color: red;
-}
-footer {
-    background-color: red;
-    color: white;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    opacity: 0.8;
-}
-.product {
-  margin-bottom: 20px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.product-container {
+  background-color: white;
+  border: 1px solid red;
+  padding: 16px;
+  border-radius: 4px;
+  text-align: center;
+  margin-bottom: 24px;
 }
 
 .product-image {
-  width: 200px;
-  height: 200px;
-  margin-right: 20px;
-  flex: 0 0 auto;
+  max-width: 200px;
+  max-height: 150px;
 }
 
-.product-details {
-  flex: 1 1 auto;
-}
-
-.product-type {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
+.product-type,
 .product-name {
-  font-size: 16px;
-  margin-bottom: 10px;
+  color: red;
 }
 
 .product-price {
   font-size: 16px;
   font-weight: bold;
-  margin-bottom: 10px;
 }
 
 .product-vendor {
   font-size: 14px;
-  color: #666;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
 
-.product-add-to-cart {
-  flex: 0 0 auto;
-}
-
-.Clothing {
-  background-color: blue;
-}
-
-.Electronics {
-  background-color: green;
-}
-
-.Meat {
-  background-color: red;
-}
-
-.Frozen {
-  background-color: yellow;
-}
-
-.Seasoning {
-  background-color: orange;
-}
-
-.Snacks {
-  background-color: purple;
-}
-
-.Produce {
-  background-color: pink;
-}
-
-.products {
+.product-actions {
   display: flex;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.product-actions select {
+  margin-right: 16px;
+}
+
+.product-actions input[type="number"] {
+  margin-right: 16px;
+}
+button, input[type="button"], input[type="submit"] {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+.product-grid {
+  width: 90%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 24px;
+}
+
+.product {
+  background-color: white;
+  border: 1px solid #c40000;
+  padding: 16px;
+  border-radius: 4px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.product:hover {
+  background-color: #ffe6e6;
+  border-color: #8f0000;
+}
+
+.product img {
+  width: 100%;
+  height: 150px;
+}
+
+.product h2 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.product h3 {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.product p {
+  font-size: 14px;
 }
     </style>
 </head>
@@ -134,8 +139,6 @@ footer {
     <h1>Products Page:</h1>
     <ul>
         <li><a href="/Customer">Customer page</a></li>
-        <li><a href="/Registration">Registration</a></li>
-        <li><a href="/Login">Login</a></li>
         <li><a href="/Products">Products</a></li>
         <li><a href="/VendorAdd">Product Add Page</a></li>
         <li><a href="/Accounts">Accounts</a></li>
@@ -153,43 +156,48 @@ footer {
 <form method="post" action="{{ url_for('cart') }}">
 
 {% for product in products %}
-<div class="product {{ product.product_type }}">
+<div class="product-container">
   <img src="{{ product.img_url }}" alt="{{ product.product_name }}" class="product-image">
-  <div class="product-details">
-    <h2 class="product-type" name="product_type">{{ product.product_type }}</h2>
-    <h3 class="product-name" name="product_name">{{ product_name }}</h3>
-      <p class="product-price" name="product_cost">{{ product.product_cost }}</p>
-    <p class="product-vendor" name="vendor_name">Sold by {{ product.vendor_name }}</p>
-    <input type="number" name="product_quantity" min="1" value="1" placeholder="Quantity">
-  </div>
-    <form method="post" action="{{ url_for('cart') }}">
-        <input type="hidden" name="product_id" value="{{ product.id }}">
-        <input type="hidden" name="product_type" value="{{ product.product_type }}">
-        <input type="hidden" name="product_name" value="{{ product.product_name }}">
-        <input type="hidden" name="product_cost" value="{{ product.product_cost }}">
-        <input type="hidden" name="product_quantity" value="{{ product.product_quantity }}">
-        <input type="hidden" name="vendor_name" value="{{ product.vendor_name }}">
-        <input type="hidden" name="img_url" value="{{ product.img_url }}">
+  <h2 class="product-type" name="product_type">{{ product.product_type }}</h2>
+  <h3 class="product-name" name="product_name">{{ product.product_name }}</h3>
+  <p class="product-price" name="product_cost">{{ product.product_cost }}</p>
+  <p class="product-vendor" name="vendor_name">Sold by {{ product.vendor_name }}</p>
+  <form method="post" action="{{ url_for('cart') }}">
+    <input type="hidden" name="product_id" value="{{ product.id }}">
+    <input type="hidden" name="product_type" value="{{ product.product_type }}">
+    <input type="hidden" name="product_name" value="{{ product.product_name }}">
+    <input type="hidden" name="product_cost" value="{{ product.product_cost }}">
+    <input type="hidden" name="product_quantity" value="{{ product.product_quantity }}">
+    <input type="hidden" name="vendor_name" value="{{ product.vendor_name }}">
+    <input type="hidden" name="img_url" value="{{ product.img_url }}">
+    <div class="product-actions">
+      <label for="Colors{{ product.id }}">Select a Color</label>
+      <select id="Colors{{ product.id }}" name="Colors">
+        <option value="Red">Red</option>
+        <option value="Green">Green</option>
+        <option value="Blue">Blue</option>
+        <option value="Black">Black</option>
+        <option value="White">White</option>
+      </select>
+      <label for="Size{{ product.id }}">Select a Size</label>
+      <select id="Size{{ product.id }}" name="Size">
+        <option value="Small">Small</option>
+        <option value="Medium">Medium</option>
+        <option value="Large">Large</option>
+        <option value="XL">XL</option>
+        <option value="XX Large">XX Large</option>
+      </select>
+      <input type="number" name="product_quantity" min="1" value="1" placeholder="Quantity">
       <button type="submit">Add to cart</button>
-    </form>
-    <label for="Colors">Select a Color</label>
-    <select id="Colors" name="Colors">
-      <option value="Red">Red</option>
-      <option value="Green">Green</option>
-      <option value="Blue">Blue</option>
-      <option value="Black">Black</option>
-      <option value="White">White</option>
-    </select>
-    <label for="Size">Select a Size</label>
-    <select id="Size" name="Size">
-      <option value="Small">Small</option>
-      <option value="Medium">Medium</option>
-      <option value="Large">Large</option>
-      <option value="XL">XL</option>
-      <option value="XX Large">XX Large</option>
-    </select>
-    {% endfor %}
     </div>
+  </form>
+  <?php if ($account_type == "Admin"): ?>
+    <div id="remove-product-button">
+      <button onclick="/remove-product/<id>">Remove Product</button>
+    </div>
+  <?php endif; ?>
+</div>
+{% endfor %}
 </form>
 
 
