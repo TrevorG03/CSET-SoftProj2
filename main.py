@@ -372,7 +372,9 @@ def Review():
 def adminVendor():
     return render_template('Admin_Vendor.html')
 
-
+@app.route("/Customer")
+def Customer():
+    return render_template('Customer.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
